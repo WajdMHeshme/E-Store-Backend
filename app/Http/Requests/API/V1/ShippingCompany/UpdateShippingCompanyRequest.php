@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Requests\API\V1\ShippingLocation;
+namespace App\Http\Requests\API\V1\ShippingCompany;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateLocationRequest extends FormRequest
+class UpdateShippingCompanyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,7 +23,9 @@ class UpdateLocationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'sometimes|string|max:255',
+            'delivery_fee' => 'sometimes|numeric|min:0',
+            'is_active' => 'sometimes|boolean'
         ];
     }
 }
