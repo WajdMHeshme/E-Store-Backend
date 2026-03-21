@@ -12,7 +12,7 @@ class StoreAdsRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,8 +22,16 @@ class StoreAdsRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+    return [
+        'title' => 'required|string|max:255',
+
+        'image' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
+
+        'link' => 'nullable|url|max:255',
+
+        'is_active' => 'nullable|boolean',
+
+        'expires_at' => 'nullable|date|after:today'
+    ];
     }
 }

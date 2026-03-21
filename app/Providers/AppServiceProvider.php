@@ -2,12 +2,15 @@
 
 namespace App\Providers;
 
+use App\Models\AdsRepository;
+use App\Repositories\Contracts\AdsRepositoryInterface;
 use App\Repositories\Contracts\AuthRepositoryInterface;
 use App\Repositories\Contracts\CategoryRepositoryInterface;
 use App\Repositories\Contracts\ProductRepositoryInterface;
 use App\Repositories\Contracts\ShippingCompanyRepository;
 use App\Repositories\Contracts\ShippingCompanyRepositoryInterface;
 use App\Repositories\Contracts\UserRepositoryInterface;
+use App\Repositories\Eloquent\AdsRepository as EloquentAdsRepository;
 use App\Repositories\Eloquent\AuthRepository;
 use App\Repositories\Eloquent\CategoryRepository;
 use App\Repositories\Eloquent\ProductRepository;
@@ -45,6 +48,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             ShippingCompanyRepositoryInterface::class,
             EloquentShippingCompanyRepository::class
+        );
+
+        $this->app->bind(
+            AdsRepositoryInterface::class,
+            EloquentAdsRepository::class
         );
     }
 
