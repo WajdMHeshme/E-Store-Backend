@@ -13,4 +13,10 @@ class Ad extends Model
         'is_active',
         'expires_at'
     ];
+
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

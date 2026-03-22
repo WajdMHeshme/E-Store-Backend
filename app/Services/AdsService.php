@@ -25,7 +25,6 @@ class AdsService
         if (isset($data['image']) && $data['image'] instanceof UploadedFile) {
 
             $data['image'] = $data['image']->store('ads', 'public');
-
         }
 
         return $this->ads->createAd($data);
