@@ -6,6 +6,7 @@ use App\Models\AdsRepository;
 use App\Models\Order;
 use App\Repositories\Contracts\AdsRepositoryInterface;
 use App\Repositories\Contracts\AuthRepositoryInterface;
+use App\Repositories\Contracts\CartRepositoryInterface;
 use App\Repositories\Contracts\CategoryRepositoryInterface;
 use App\Repositories\Contracts\FavoriteRepositoryInterface;
 use App\Repositories\Contracts\OrderRepositoryInterface;
@@ -15,6 +16,7 @@ use App\Repositories\Contracts\ShippingCompanyRepositoryInterface;
 use App\Repositories\Contracts\UserRepositoryInterface;
 use App\Repositories\Eloquent\AdsRepository as EloquentAdsRepository;
 use App\Repositories\Eloquent\AuthRepository;
+use App\Repositories\Eloquent\CartRepository;
 use App\Repositories\Eloquent\CategoryRepository;
 use App\Repositories\Eloquent\FavoriteRepository;
 use App\Repositories\Eloquent\OrderRepository;
@@ -66,6 +68,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             FavoriteRepositoryInterface::class,
             FavoriteRepository::class,
+        );
+
+        $this->app->bind(
+            CartRepositoryInterface::class,
+            CartRepository::class
         );
     }
 
