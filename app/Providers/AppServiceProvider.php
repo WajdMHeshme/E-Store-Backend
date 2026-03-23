@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Repositories\Contracts\AdsRepositoryInterface;
 use App\Repositories\Contracts\AuthRepositoryInterface;
 use App\Repositories\Contracts\CategoryRepositoryInterface;
+use App\Repositories\Contracts\FavoriteRepositoryInterface;
 use App\Repositories\Contracts\OrderRepositoryInterface;
 use App\Repositories\Contracts\ProductRepositoryInterface;
 use App\Repositories\Contracts\ShippingCompanyRepository;
@@ -15,6 +16,7 @@ use App\Repositories\Contracts\UserRepositoryInterface;
 use App\Repositories\Eloquent\AdsRepository as EloquentAdsRepository;
 use App\Repositories\Eloquent\AuthRepository;
 use App\Repositories\Eloquent\CategoryRepository;
+use App\Repositories\Eloquent\FavoriteRepository;
 use App\Repositories\Eloquent\OrderRepository;
 use App\Repositories\Eloquent\ProductRepository;
 use App\Repositories\Eloquent\ShippingCompanyRepository as EloquentShippingCompanyRepository;
@@ -55,12 +57,15 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(
             AdsRepositoryInterface::class,
-            EloquentAdsRepository::class
+            EloquentAdsRepository::class,
         );
-
         $this->app->bind(
             OrderRepositoryInterface::class,
-            OrderRepository::class
+            OrderRepository::class,
+        );
+        $this->app->bind(
+            FavoriteRepositoryInterface::class,
+            FavoriteRepository::class,
         );
     }
 
