@@ -8,6 +8,7 @@ use App\Repositories\Contracts\AdsRepositoryInterface;
 use App\Repositories\Contracts\AuthRepositoryInterface;
 use App\Repositories\Contracts\CartRepositoryInterface;
 use App\Repositories\Contracts\CategoryRepositoryInterface;
+use App\Repositories\Contracts\CheckoutRepositoryInterface;
 use App\Repositories\Contracts\FavoriteRepositoryInterface;
 use App\Repositories\Contracts\OrderRepositoryInterface;
 use App\Repositories\Contracts\ProductRepositoryInterface;
@@ -18,6 +19,7 @@ use App\Repositories\Eloquent\AdsRepository as EloquentAdsRepository;
 use App\Repositories\Eloquent\AuthRepository;
 use App\Repositories\Eloquent\CartRepository;
 use App\Repositories\Eloquent\CategoryRepository;
+use App\Repositories\Eloquent\CheckoutRepository;
 use App\Repositories\Eloquent\FavoriteRepository;
 use App\Repositories\Eloquent\OrderRepository;
 use App\Repositories\Eloquent\ProductRepository;
@@ -74,6 +76,12 @@ class AppServiceProvider extends ServiceProvider
             CartRepositoryInterface::class,
             CartRepository::class
         );
+
+        $this->app->bind(
+            CheckoutRepositoryInterface::class,
+            CheckoutRepository::class
+        );
+
     }
 
     /**
