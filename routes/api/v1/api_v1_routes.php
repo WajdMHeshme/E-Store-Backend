@@ -16,4 +16,5 @@ Route::middleware('api',)->group(function (): void {
     require_once __DIR__ . '/api_favorite_routes.php';
     require_once __DIR__ . '/api_cart_routes.php';
     require_once __DIR__ . '/api_checkout_routes.php';
+    require_once __DIR__ . '/api_review_routes.php';
 });

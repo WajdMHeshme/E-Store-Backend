@@ -12,6 +12,7 @@ use App\Repositories\Contracts\CheckoutRepositoryInterface;
 use App\Repositories\Contracts\FavoriteRepositoryInterface;
 use App\Repositories\Contracts\OrderRepositoryInterface;
 use App\Repositories\Contracts\ProductRepositoryInterface;
+use App\Repositories\Contracts\ReviewRepositoryInterface;
 use App\Repositories\Contracts\ShippingCompanyRepository;
 use App\Repositories\Contracts\ShippingCompanyRepositoryInterface;
 use App\Repositories\Contracts\UserRepositoryInterface;
@@ -23,6 +24,7 @@ use App\Repositories\Eloquent\CheckoutRepository;
 use App\Repositories\Eloquent\FavoriteRepository;
 use App\Repositories\Eloquent\OrderRepository;
 use App\Repositories\Eloquent\ProductRepository;
+use App\Repositories\Eloquent\ReviewRepository;
 use App\Repositories\Eloquent\ShippingCompanyRepository as EloquentShippingCompanyRepository;
 use App\Repositories\Eloquent\UserRepository;
 use Illuminate\Support\ServiceProvider;
@@ -82,6 +84,10 @@ class AppServiceProvider extends ServiceProvider
             CheckoutRepository::class
         );
 
+        $this->app->bind(
+            ReviewRepositoryInterface::class,
+            ReviewRepository::class
+        );
     }
 
     /**
