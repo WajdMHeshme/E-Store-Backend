@@ -20,7 +20,7 @@ class OrderRepository implements OrderRepositoryInterface
 
     public function getOrderById(int $id)
     {
-        return Order::with('items.product','shippingCompany')->findOrFail($id);
+        return Order::with('items.product','shippingCompany')->find($id);
     }
 
     public function createOrder(array $data)
@@ -38,7 +38,7 @@ class OrderRepository implements OrderRepositoryInterface
 
     public function deleteOrder(int $id)
     {
-        $order = Order::findOrFail($id);
+        $order = Order::find($id);
 
         return $order->delete();
     }

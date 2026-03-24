@@ -14,7 +14,7 @@ class UserRepository implements ContractsUserRepositoryInterface
 
     public function findById($id)
     {
-        return User::findOrFail($id);
+        return User::find($id);
     }
 
     public function create(array $user)

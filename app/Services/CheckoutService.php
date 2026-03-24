@@ -7,6 +7,10 @@ use App\Models\ShippingCompany;
 use App\Repositories\Contracts\CheckoutRepositoryInterface;
 use Illuminate\Support\Facades\DB;
 
+// Exceptions
+use App\Exceptions\CartEmptyException;
+use App\Exceptions\ResourceNotFoundException;
+
 class CheckoutService
 {
     public function __construct(
@@ -17,16 +21,26 @@ class CheckoutService
     {
         return DB::transaction(function () use ($userId, $data) {
 
+            // 🔹 جلب السلة مع المنتجات
             $cart = Cart::with('items.product')
                 ->where('user_id', $userId)
-                ->firstOrFail();
+                ->first();
 
-            if ($cart->items->isEmpty()) {
-                throw new \Exception('Cart is empty');
+            if (!$cart) {
+                throw new ResourceNotFoundException('Cart');
             }
 
-            $shippingCompany = ShippingCompany::findOrFail($data['shipping_company_id']);
+            if ($cart->items->isEmpty()) {
+                throw new CartEmptyException();
+            }
 
+            // 🔹 جلب شركة الشحن
+            $shippingCompany = ShippingCompany::find($data['shipping_company_id']);
+            if (!$shippingCompany) {
+                throw new ResourceNotFoundException('Shipping Company');
+            }
+
+            // 🔹 إنشاء الطلب
             $order = $this->checkoutRepository->createOrder([
                 'user_id' => $userId,
                 'shipping_company_id' => $data['shipping_company_id'],
@@ -37,9 +51,15 @@ class CheckoutService
 
             $total = 0;
 
+            // 🔹 إنشاء عناصر الطلب
             foreach ($cart->items as $item) {
+                $product = $item->product;
 
-                $price = $item->product->price;
+                if (!$product) {
+                    throw new ResourceNotFoundException('Product');
+                }
+
+                $price = $product->price;
 
                 $order->items()->create([
                     'product_id' => $item->product_id,
@@ -50,15 +70,18 @@ class CheckoutService
                 $total += $price * $item->quantity;
             }
 
+            // 🔹 إضافة رسوم الشحن
             $total += $shippingCompany->delivery_fee;
 
             $order->update([
                 'total_amount' => $total
             ]);
 
+            // 🔹 مسح السلة بعد الانتهاء
             $cart->items()->delete();
 
-            return $order->load('items.product','shippingCompany');
+            // 🔹 إعادة الطلب مع العلاقات
+            return $order->load('items.product', 'shippingCompany');
         });
     }
 }

@@ -15,7 +15,7 @@ class AdsRepository implements AdsRepositoryInterface
 
     public function getAdById(int $id): ?Ad
     {
-        return Ad::findOrFail($id);
+        return Ad::find($id);
     }
 
     public function createAd(array $data): Ad
@@ -32,7 +32,7 @@ class AdsRepository implements AdsRepositoryInterface
 
     public function deleteAd(int $id): bool
     {
-        $ad = Ad::findOrFail($id);
+        $ad = Ad::find($id);
         return $ad->delete();
     }
 }

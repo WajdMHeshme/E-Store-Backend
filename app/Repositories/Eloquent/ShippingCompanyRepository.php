@@ -14,7 +14,7 @@ class ShippingCompanyRepository implements ShippingCompanyRepositoryInterface
 
     public function findById($id)
     {
-        return ShippingCompany::findOrFail($id);
+        return ShippingCompany::find($id);
     }
     public function create(array $data)
     {

@@ -5,26 +5,36 @@ namespace App\Services;
 use App\Models\Product;
 use App\Repositories\Contracts\OrderRepositoryInterface;
 use Illuminate\Support\Facades\DB;
+use App\Exceptions\ResourceNotFoundException;
 
 class OrderService
 {
     public function __construct(private OrderRepositoryInterface $orders) {}
 
+    // جلب كل الأوردرات
     public function getAllOrders()
     {
         return $this->orders->getAllOrders();
     }
 
+    // جلب أوردر واحد
     public function getOrderById(int $id)
     {
-        return $this->orders->getOrderById($id);
+        $order = $this->orders->getOrderById($id);
+
+        if (!$order) {
+            throw new ResourceNotFoundException('Order');
+        }
+
+        return $order;
     }
 
+    // إنشاء أوردر
     public function createOrder(array $data)
     {
         return DB::transaction(function () use ($data) {
 
-            $items = $data['items'];
+            $items = $data['items'] ?? [];
             unset($data['items']);
 
             $data['user_id'] = auth()->id();
@@ -37,7 +47,11 @@ class OrderService
 
             foreach ($items as $item) {
 
-                $product = Product::findOrFail($item['product_id']);
+                $product = Product::find($item['product_id']);
+
+                if (!$product) {
+                    throw new ResourceNotFoundException("Product with ID {$item['product_id']}");
+                }
 
                 $price = $product->price;
 
@@ -58,13 +72,27 @@ class OrderService
         });
     }
 
+    // تحديث أوردر
     public function updateOrder(int $id, array $data)
     {
-        return $this->orders->updateOrder($id, $data);
+        $order = $this->orders->getOrderById($id);
+
+        if (!$order) {
+            throw new ResourceNotFoundException('Order');
+        }
+
+        return $this->orders->updateOrder($order, $data);
     }
 
+    // حذف أوردر
     public function deleteOrder(int $id)
     {
-        return $this->orders->deleteOrder($id);
+        $order = $this->orders->getOrderById($id);
+
+        if (!$order) {
+            throw new ResourceNotFoundException('Order');
+        }
+
+        return $this->orders->deleteOrder($order);
     }
 }

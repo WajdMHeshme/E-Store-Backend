@@ -14,7 +14,7 @@ class CategoryRepository implements ContractsCategoryRepositoryInterface
 
     public function findById($id)
     {
-        return Category::findOrFail($id);
+        return Category::find($id);
     }
 
     public function create(array $data)

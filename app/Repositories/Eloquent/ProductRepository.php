@@ -14,7 +14,7 @@ class ProductRepository implements ContractsProductRepositoryInterface
 
     public function findById($id)
     {
-        return Product::findOrFail($id);
+        return Product::find($id);
     }
 
     public function create(array $data)
@@ -28,7 +28,7 @@ class ProductRepository implements ContractsProductRepositoryInterface
     }
     public function delete($id)
     {
-        $product = Product::findorFail($id);
+        $product = Product::find($id);
         $product->delete();
         return $product;
     }
