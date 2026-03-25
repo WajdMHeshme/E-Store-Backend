@@ -30,6 +30,14 @@ class UpdateProductRequest extends FormRequest
             'stock' => 'sometimes|integer|min:0',
             'is_show' => 'sometimes|boolean',
             'hot_price' => 'nullable|numeric|min:0',
+
+            // For new images
+            'images' => 'nullable|array',
+            'images.*' => 'image|mimes:jpeg,png,jpg,webp|max:2048',
+
+            // For deleting existing images
+            'delete_image_ids' => 'nullable|array',
+            'delete_image_ids.*' => 'integer|exists:product_images,id',
         ];
     }
 }

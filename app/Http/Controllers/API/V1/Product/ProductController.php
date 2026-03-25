@@ -23,19 +23,26 @@ class ProductController extends Controller
         return response()->json($product);
     }
 
-    public function store(StoreProductRequest $request)
-    {
-        $data = $request->validated();
-        $product = $this->productService->createProduct($data);
-        return response()->json($product);
-    }
+public function store(StoreProductRequest $request)
+{
+    $data = $request->validated();
+    $images = $request->file('images', []);
 
-    public function update($id, UpdateProductRequest $request)
-    {
-        $data = $request->validated();
-        $product = $this->productService->updateProduct($id, $data);
-        return response()->json($product);
-    }
+    $product = $this->productService->createProduct($data, $images);
+
+    return response()->json($product);
+}
+
+public function update($id, UpdateProductRequest $request)
+{
+    $data = $request->validated();
+    $images = $request->file('images', []);
+    $deleteImageIds = $request->input('delete_image_ids', []);
+
+    $product = $this->productService->updateProduct($id, $data, $images, $deleteImageIds);
+
+    return response()->json($product);
+}
     public function destroy($id)
     {
         $this->productService->deleteProduct($id);
