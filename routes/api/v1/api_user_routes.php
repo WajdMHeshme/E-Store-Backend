@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API\V1\User;
 
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('users')->middleware('auth:sanctum', 'admin')->group(function () {
+Route::prefix('users')->middleware('auth:sanctum', 'admin' , 'custom.rate:1,10')->group(function () {
     Route::get('/', [UserController::class, 'index']);
     Route::get('/{id}', [UserController::class, 'show']);
     Route::post('/', [UserController::class, 'store']);

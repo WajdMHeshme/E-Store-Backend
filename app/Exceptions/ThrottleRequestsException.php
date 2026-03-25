@@ -25,7 +25,7 @@ class Handler extends ExceptionHandler
     {
         if ($request->is('api/*')) {
 
-            // --- Rate limit exceeded ---
+            // Throttle Exception
             if ($e instanceof ThrottleRequestsException) {
                 return response()->json([
                     'success' => false,
@@ -34,16 +34,7 @@ class Handler extends ExceptionHandler
                 ], 429);
             }
 
-            // --- Validation Error ---
-            if ($e instanceof ValidationException) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Validation Error',
-                    'errors' => $e->errors(),
-                ], 422);
-            }
-
-            // --- Cart Empty ---
+            // CartEmptyException
             if ($e instanceof CartEmptyException) {
                 return response()->json([
                     'success' => false,
@@ -51,7 +42,7 @@ class Handler extends ExceptionHandler
                 ], 422);
             }
 
-            // --- Product Out Of Stock ---
+            // ProductOutOfStockException
             if ($e instanceof ProductOutOfStockException) {
                 return response()->json([
                     'success' => false,
@@ -59,7 +50,7 @@ class Handler extends ExceptionHandler
                 ], 422);
             }
 
-            // --- Resource Not Found ---
+            // ResourceNotFoundException
             if ($e instanceof ResourceNotFoundException) {
                 return response()->json([
                     'success' => false,
@@ -67,7 +58,7 @@ class Handler extends ExceptionHandler
                 ], 404);
             }
 
-            // --- Unauthorized Action ---
+            // UnauthorizedActionException
             if ($e instanceof UnauthorizedActionException) {
                 return response()->json([
                     'success' => false,
@@ -75,7 +66,16 @@ class Handler extends ExceptionHandler
                 ], 403);
             }
 
-            // --- Route Not Found ---
+            // Validation Exception
+            if ($e instanceof ValidationException) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Validation error',
+                    'errors' => $e->errors(),
+                ], 422);
+            }
+
+            // Not Found HTTP Exception (Route not found)
             if ($e instanceof NotFoundHttpException) {
                 return response()->json([
                     'success' => false,
