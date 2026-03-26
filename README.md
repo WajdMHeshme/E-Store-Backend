@@ -23,10 +23,9 @@ It handles core E-commerce functionalities such as user authentication, product 
 
 ---
 
-## Tech Stack 
+## 🧰 Tech Stack 
 ```text
 
-🧰 Tech Stack
 Laravel – Powerful backend framework
 PHP – Core programming language
 MySQL – Relational database
